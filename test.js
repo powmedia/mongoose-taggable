@@ -55,7 +55,19 @@ exports['addTag'] = {
     this.item.save(done);
   },
 
-  'adds a tag atomically': function(test) {
+  'adds the tag to the local instance': function(test) {
+    var item = this.item;
+
+    item.addTag('baz', function(err) {
+      if (err) return test.done(err);
+
+      test.same(item.labels.slice(), ['foo', 'baz']);
+
+      test.done();
+    });
+  },
+
+  'adds a tag atomically to the document on the DB': function(test) {
     var item = this.item;
 
     item.addTag('bar', function(err, addedTag) {
@@ -98,6 +110,18 @@ exports['removeTag'] = {
     this.item = new Item({ labels: ['foo', 'bar', 'baz'] });
 
     this.item.save(done);
+  },
+
+  'adds the tag to from local instance': function(test) {
+    var item = this.item;
+
+    item.removeTag('bar', function(err) {
+      if (err) return test.done(err);
+
+      test.same(item.labels.slice(), ['foo', 'baz']);
+
+      test.done();
+    });
   },
 
   'removes a tag atomically': function(test) {

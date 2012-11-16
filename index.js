@@ -36,20 +36,28 @@ module.exports = function(schema, pluginOptions) {
    * @param {Function} cb   Callback(err, addedTag)  addedTag will be false if tag already existed; true if added
    */
   schema.methods.addTag = function(tag, cb) {
+    var self = this,
+        path = pluginOptions.path;
+
     //Find the doc  to update if it doesn't have the tag
     var conditions = {};
     conditions._id = this._id;
-    conditions[pluginOptions.path] = { $ne: tag };
+    conditions[path] = { $ne: tag };
 
     //Add the tag to the model
     var update = {};
     update.$push = {};
-    update.$push[pluginOptions.path] = tag;
+    update.$push[path] = tag;
 
     this.constructor.update(conditions, update, function(err, numDocsChanged) {
       if (err) return cb(err);
 
-      cb(null, numDocsChanged ? true : false);
+      var addedTag = numDocsChanged ? true : false;
+
+      //Add to the local (this) instance
+      if (addedTag) self[path].push(tag);
+
+      cb(null, addedTag);
     });
   };
 
@@ -63,20 +71,28 @@ module.exports = function(schema, pluginOptions) {
    * @param {Function} cb   Callback(err, removedTag)  removedTag will be false if tag didn't exist; true if removed
    */
   schema.methods.removeTag = function(tag, cb) {
+    var self = this,
+        path = pluginOptions.path;
+
     //Find the doc  to update if it doesn't have the tag
     var conditions = {};
     conditions._id = this._id;
-    conditions[pluginOptions.path] = tag;
+    conditions[path] = tag;
 
     //Remove the tag from the model
     var update = {};
     update.$pull = {};
-    update.$pull[pluginOptions.path] = tag;
+    update.$pull[path] = tag;
 
     this.constructor.update(conditions, update, function(err, numDocsChanged) {
       if (err) return cb(err);
 
-      cb(null, numDocsChanged ? true : false);
+      var removedTag = numDocsChanged ? true : false;
+
+      //Remove from the local (this) instance
+      if (removedTag) self[path].splice(self[path].indexOf(tag), 1);
+
+      cb(null, removedTag);
     });
   };
 
