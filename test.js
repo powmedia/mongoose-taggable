@@ -132,6 +132,25 @@ exports['removeTag'] = {
 }
 
 
+exports['hasTag'] = {
+  'returns true when the tag exists': function(test) {
+    var item = new Item({ labels: ['foo', 'bar'] });
+
+    test.same(item.hasTag('bar'), true);
+
+    test.done();
+  },
+
+  'returns false when the tag does not exist': function(test) {
+    var item = new Item({ labels: ['bar', 'baz'] });
+
+    test.same(item.hasTag('foo'), false);
+
+    test.done();
+  }
+}
+
+
 exports['filterByTags'] = {
   setUp: function(done) {
     var items = [

@@ -82,6 +82,20 @@ module.exports = function(schema, pluginOptions) {
 
 
   /**
+   * Returns whether the document as a given tag
+   *
+   * @param {String} tag
+   *
+   * @return {Boolean}
+   */
+  schema.methods.hasTag = function(tag) {
+    var tags = this[pluginOptions.path];
+
+    return _.contains(tags, tag);
+  };
+
+
+  /**
    * Alters a query to filter by tags.
    *
    * @param {Query} query       Mongoose query object
