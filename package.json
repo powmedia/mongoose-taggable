@@ -1,0 +1,29 @@
+{
+  "name": "mongoose-taggable",
+  "version": "0.1.0",
+  "description": "Simple tagging plugin for Mongoose",
+  "main": "index.js",
+  "dependencies": {
+    "underscore": "latest"
+  },
+  "devDependencies": {
+    "mongoose": "3.x.x",
+    "pow-mongodb-fixtures": "latest",
+    "nodeunit": "latest",
+    "sinon": "latest"
+  },
+  "scripts": {
+    "test": "nodeunit test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/powmedia/mongoose-taggable.git"
+  },
+  "keywords": [
+    "mongoose",
+    "plugin",
+    "tag"
+  ],
+  "author": "Charles Davison",
+  "license": "MIT"
+}
