@@ -1,6 +1,6 @@
 {
   "name": "mongoose-taggable",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Simple tagging plugin for Mongoose",
   "main": "index.js",
   "dependencies": {

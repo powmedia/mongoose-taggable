@@ -48,7 +48,36 @@ exports['adds paths to schema'] = {
 }
 
 
-exports['addTag'] = {
+exports['addTag(tag)'] = {
+  'when the tag does not exist': function(test) {
+    var item = new Item({
+      labels: ['foo', 'bar']
+    });
+
+    var addedTag = item.addTag('baz');
+
+    test.same(addedTag, true);
+    test.same(item.labels.slice(), ['foo', 'bar', 'baz']);
+
+    test.done();
+  },
+
+  'when the tag already exists': function(test) {
+    var item = new Item({
+      labels: ['foo', 'bar', 'baz']
+    });
+
+    var addedTag = item.addTag('baz');
+
+    test.same(addedTag, false);
+    test.same(item.labels.slice(), ['foo', 'bar', 'baz']);
+
+    test.done();
+  }
+}
+
+
+exports['addTag(tag, cb)'] = {
   setUp: function(done) {
     this.item = new Item({ labels: ['foo'] });
 
@@ -105,7 +134,36 @@ exports['addTag'] = {
 }
 
 
-exports['removeTag'] = {
+exports['removeTag(tag)'] = {
+  'when the tag does not exist': function(test) {
+    var item = new Item({
+      labels: ['foo', 'bar']
+    });
+
+    var removedTag = item.removeTag('baz');
+
+    test.same(removedTag, false);
+    test.same(item.labels.slice(), ['foo', 'bar']);
+
+    test.done();
+  },
+
+  'when the tag exists': function(test) {
+    var item = new Item({
+      labels: ['foo', 'bar', 'baz']
+    });
+
+    var removedTag = item.removeTag('baz');
+
+    test.same(removedTag, true);
+    test.same(item.labels.slice(), ['foo', 'bar']);
+
+    test.done();
+  }
+}
+
+
+exports['removeTag(tag, cb)'] = {
   setUp: function(done) {
     this.item = new Item({ labels: ['foo', 'bar', 'baz'] });
 
