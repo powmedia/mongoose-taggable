@@ -13,9 +13,9 @@ use a compound index with other paths in your schema
 ###model.addTag(tag)
 Add a tag (in memory only)
 
-  @param {String} tag     The tag to add
+- @param {String} tag     The tag to add
 
-  @return {Boolean}       False if tag already existed; true if added
+- @return {Boolean}       False if tag already existed; true if added
 
 
 ###model.addTag(tag, cb)
@@ -23,16 +23,16 @@ Add a tag to a document atomically
 
 NOTE: This method modifies the document on the database
 
-  @param {String} tag    The tag to add
-  @param {Function} cb   Callback(err, addedTag)  addedTag will be false if tag already existed; true if added
+- @param {String} tag    The tag to add
+- @param {Function} cb   Callback(err, addedTag)  addedTag will be false if tag already existed; true if added
 
 
 ###model.removeTag(tag)
 Remove a tag (in memory only)
 
-  @param {String} tag     The tag to add
+- @param {String} tag     The tag to add
 
-  @return {Boolean}       False if tag didn't exist; true if removed
+- @return {Boolean}       False if tag didn't exist; true if removed
 
 
 ###model.removeTag(tag, cb)
@@ -40,21 +40,21 @@ Remove a tag from a document atomically
 
 NOTE: This method modifies the document on the database
 
-  @param {String} tag    The tag to remove
-  @param {Function} cb   Callback(err, removedTag)  removedTag will be false if tag didn't exist; true if removed
+- @param {String} tag    The tag to remove
+- @param {Function} cb   Callback(err, removedTag)  removedTag will be false if tag didn't exist; true if removed
 
 
 ###model.hasTag(tag)
 Returns whether the document as a given tag
 
-  @param {String} tag
+- @param {String} tag
 
-  @return {Boolean}
+- @return {Boolean}
 
 
 ###Model.filterByTags(query, includeTags, [excludeTags])
 Alters a query to filter by tags.
 
-  @param {Query} query            Mongoose query object
-  @param {String[]} includeTags   Tags the document must have
-  @param {String[]} excludeTags   Tags the document must NOT have
+- @param {Query} query            Mongoose query object
+- @param {String[]} includeTags   Tags the document must have
+- @param {String[]} excludeTags   Tags the document must NOT have
