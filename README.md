@@ -52,8 +52,9 @@ Returns whether the document as a given tag
   @return {Boolean}
 
 
-###Model.filterByTags(query, tags)
+###Model.filterByTags(query, includeTags, [excludeTags])
 Alters a query to filter by tags.
 
-  @param {Query} query       Mongoose query object
-  @param {String[]} tags     Array of tags to filter by
+  @param {Query} query            Mongoose query object
+  @param {String[]} includeTags   Tags the document must have
+  @param {String[]} excludeTags   Tags the document must NOT have

@@ -239,13 +239,15 @@ exports['filterByTags'] = {
       { title: 'A', labels: ['a', 'b'] },
       { title: 'B', labels: [] },
       { title: 'C', labels: ['c', 'b'] },
-      { title: 'D', labels: ['a', 'c'] }
+      { title: 'D', labels: ['a', 'c'] },
+      { title: 'E', labels: ['b'] },
+      { title: 'F', labels: ['a', 'b', 'c'] }
     ];
 
     fixtures.clearAndLoad({ items: items }, done);
   },
 
-  'with one tag': function(test) {
+  'with one includeTag': function(test) {
     var query = Item.find({});
 
     Item.filterByTags(query, ['a']);
@@ -255,13 +257,13 @@ exports['filterByTags'] = {
 
       var titles = _.pluck(docs, 'title');
 
-      test.same(titles, ['A', 'D']);
+      test.same(titles.join(' '), 'A D F');
 
       test.done();
     });
   },
 
-  'with multiple tags': function(test) {
+  'with multiple includeTags': function(test) {
     var query = Item.find({});
 
     Item.filterByTags(query, ['b', 'c']);
@@ -271,13 +273,13 @@ exports['filterByTags'] = {
 
       var titles = _.pluck(docs, 'title');      
 
-      test.same(titles, ['C']);
+      test.same(titles.join(' '), 'C F');
 
       test.done();
     });
   },
 
-  'with no tags, does not filter': function(test) {
+  'with no includeTags, does not filter': function(test) {
     var query = Item.find({});
 
     Item.filterByTags(query, []);
@@ -287,7 +289,55 @@ exports['filterByTags'] = {
 
       var titles = _.pluck(docs, 'title');      
 
-      test.same(titles, ['A', 'B', 'C', 'D']);
+      test.same(titles.join(' '), 'A B C D E F');
+
+      test.done();
+    });
+  },
+
+  'with one excludeTag': function(test) {
+    var query = Item.find({});
+
+    Item.filterByTags(query, null, ['b']);
+
+    query.exec(function(err, docs) {
+      if (err) return test.done(err);
+
+      var titles = _.pluck(docs, 'title');
+
+      test.same(titles.join(' '), 'B D');
+
+      test.done();
+    });
+  },
+
+  'with multiple excludeTags': function(test) {
+    var query = Item.find({});
+
+    Item.filterByTags(query, null, ['a', 'b']);
+
+    query.exec(function(err, docs) {
+      if (err) return test.done(err);
+
+      var titles = _.pluck(docs, 'title');
+
+      test.same(titles.join(' '), 'B C D E');
+
+      test.done();
+    });
+  },
+
+  'with includeTags and excludeTags': function(test) {
+    var query = Item.find({});
+
+    Item.filterByTags(query, ['b'], ['c']);
+
+    query.exec(function(err, docs) {
+      if (err) return test.done(err);
+
+      var titles = _.pluck(docs, 'title');
+
+      test.same(titles.join(' '), 'A E');
 
       test.done();
     });

@@ -88,13 +88,43 @@ module.exports = function(schema, pluginOptions) {
   /**
    * Alters a query to filter by tags.
    *
-   * @param {Query} query       Mongoose query object
-   * @param {String[]} tags     Array of tags to filter by
+   * @param {Query} query           Mongoose query object
+   * @param {String[]} includeTags  Tags the document must have
+   * @param {String[]} excludeTags  Tags the document must NOT have
+   *
+   * @return {Query}
    */
-  schema.statics.filterByTags = function(query, tags) {
-    if (!tags || !tags.length) return query;
-    
-    query.where(pluginOptions.path).all(tags);
+  schema.statics.filterByTags = function(query, includeTags, excludeTags) {
+    var path = pluginOptions.path;
+
+    var conditions = [];
+
+    //includeTags
+    if (includeTags && includeTags.length) {
+      var includeCondition = {};
+
+      includeCondition[path] = { $all: includeTags }
+
+      conditions.push(includeCondition);
+    }
+
+    //excludeTags
+    if (excludeTags && excludeTags.length) {
+      var excludeCondition = {};
+
+      excludeCondition[path] = {
+        $not: {
+          $all: excludeTags
+        }
+      }
+
+      conditions.push(excludeCondition);
+    }
+
+    //Add to query
+    if (conditions.length) {
+      if (query.and(conditions));
+    }
 
     return query;
   }
