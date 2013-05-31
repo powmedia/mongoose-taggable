@@ -114,7 +114,7 @@ module.exports = function(schema, pluginOptions) {
 
       excludeCondition[path] = {
         $not: {
-          $all: excludeTags
+          $in: excludeTags
         }
       }
 
@@ -123,7 +123,7 @@ module.exports = function(schema, pluginOptions) {
 
     //Add to query
     if (conditions.length) {
-      if (query.and(conditions));
+      query.and(conditions);
     }
 
     return query;

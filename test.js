@@ -314,14 +314,14 @@ exports['filterByTags'] = {
   'with multiple excludeTags': function(test) {
     var query = Item.find({});
 
-    Item.filterByTags(query, null, ['a', 'b']);
+    Item.filterByTags(query, null, ['a', 'c']);
 
     query.exec(function(err, docs) {
       if (err) return test.done(err);
 
       var titles = _.pluck(docs, 'title');
 
-      test.same(titles.join(' '), 'B C D E');
+      test.same(titles.join(' '), 'B E');
 
       test.done();
     });
@@ -338,6 +338,22 @@ exports['filterByTags'] = {
       var titles = _.pluck(docs, 'title');
 
       test.same(titles.join(' '), 'A E');
+
+      test.done();
+    });
+  },
+
+  'with multiple includeTags and excludeTags': function(test) {
+    var query = Item.find({});
+
+    Item.filterByTags(query, ['b'], ['a', 'c']);
+
+    query.exec(function(err, docs) {
+      if (err) return test.done(err);
+
+      var titles = _.pluck(docs, 'title');
+
+      test.same(titles.join(' '), 'E');
 
       test.done();
     });

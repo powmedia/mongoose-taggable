@@ -56,5 +56,11 @@ Returns whether the document as a given tag
 Alters a query to filter by tags.
 
 - @param {Query} query            Mongoose query object
-- @param {String[]} includeTags   Tags the document must have
-- @param {String[]} excludeTags   Tags the document must NOT have
+- @param {String[]} includeTags   Tags the document must have (must have all)
+- @param {String[]} excludeTags   Tags the document must NOT have (must not have any)
+
+
+
+##Changelog
+###v0.5.0
+- Changed the way excludeTags works in filterByTags(), from an AND operation to an OR operation. The method now selects items that have ALL of the includeTags but filters out items that have ANY of the excludeTags.
